@@ -44,8 +44,8 @@ class TracerMessenger {
 
   void SetupSubscription() {
     // odometry publisher
-    odom_pub_ =
-        node_->create_publisher<nav_msgs::msg::Odometry>(odom_topic_name_, 50);
+    // odom_pub_ =
+    //     node_->create_publisher<nav_msgs::msg::Odometry>(odom_topic_name_, 50);
     status_pub_ = node_->create_publisher<tracer_msgs::msg::TracerStatus>(
         "/tracer_status", 10);
 
@@ -59,7 +59,7 @@ class TracerMessenger {
         std::bind(&TracerMessenger::LightCmdCallback, this,
                   std::placeholders::_1));
 
-    tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(node_);
+    // tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(node_);
   }
 
   void PublishStateToROS() {
@@ -124,7 +124,7 @@ class TracerMessenger {
     status_pub_->publish(status_msg);
 
     // publish odometry and tf
-    PublishOdometryToROS(state.motion_state, dt);
+    // PublishOdometryToROS(state.motion_state, dt);
 
     // record time for next integration
     last_time_ = current_time_;
@@ -144,14 +144,14 @@ class TracerMessenger {
   std::mutex twist_mutex_;
   geometry_msgs::msg::Twist current_twist_;
 
-  rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
+  // rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odom_pub_;
   rclcpp::Publisher<tracer_msgs::msg::TracerStatus>::SharedPtr status_pub_;
 
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr motion_cmd_sub_;
   rclcpp::Subscription<tracer_msgs::msg::TracerLightCmd>::SharedPtr
       light_cmd_sub_;
 
-  std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
+  // std::shared_ptr<tf2_ros::TransformBroadcaster> tf_broadcaster_;
 
   // speed variables
   double position_x_ = 0.0;
@@ -276,7 +276,7 @@ class TracerMessenger {
     tf_msg.transform.translation.z = 0.0;
     tf_msg.transform.rotation = odom_quat;
 
-    tf_broadcaster_->sendTransform(tf_msg);
+    // tf_broadcaster_->sendTransform(tf_msg);
 
     // publish odometry and tf messages
     nav_msgs::msg::Odometry odom_msg;
@@ -293,7 +293,7 @@ class TracerMessenger {
     odom_msg.twist.twist.linear.y = 0.0;
     odom_msg.twist.twist.angular.z = angular_speed;
 
-    odom_pub_->publish(odom_msg);
+    // odom_pub_->publish(odom_msg);
   }
 };
 }  // namespace westonrobot
